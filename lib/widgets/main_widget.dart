@@ -23,11 +23,33 @@ class _MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Center(
-          child: Text('Number: 0')
+        padding: const EdgeInsets.all(16),
+        child: StreamBuilder(
+          stream: MainViewModel.of(context).numberStream,
+          builder: (ctx,_) {
+            return Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text('Number: ${MainViewModel.of(context).number}'),
+                    const SizedBox(
+                      height: 50
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          int currentNumber = MainViewModel.of(context).number;
+                          MainViewModel.of(context).set(currentNumber + 1);
+                        },
+                        child: const Text('tap me')
+                    )
+                  ]
+              ),
+            );
+          }
         ),
       )
     );
